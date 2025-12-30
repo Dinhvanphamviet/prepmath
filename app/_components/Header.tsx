@@ -11,7 +11,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import Link from "next/link"
+import Link from "next/link";
 
 function Header() {
   return (
@@ -25,43 +25,65 @@ function Header() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="font-game text-xl">Luyện đề</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="font-game text-xl">
+              Luyện đề
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <NavigationMenuLink className="font-game text-xl">THPT</NavigationMenuLink>
-              <NavigationMenuLink className="font-game text-xl">HSA</NavigationMenuLink>
-              <NavigationMenuLink className="font-game text-xl">TSA</NavigationMenuLink>
+              <NavigationMenuLink className="font-game text-xl">
+                THPT
+              </NavigationMenuLink>
+              <NavigationMenuLink className="font-game text-xl">
+                HSA
+              </NavigationMenuLink>
+              <NavigationMenuLink className="font-game text-xl">
+                TSA
+              </NavigationMenuLink>
             </NavigationMenuContent>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-    <Link href="/pricing" className="font-game text-xl">
-      Bảng giá
-    </Link>
-  </NavigationMenuLink>
-</NavigationMenuItem>
-
-
-          <NavigationMenuItem>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Link href={'/contactus'} className="font-game text-xl">Liên hệ</Link>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link href="/pricing" className="font-game text-xl">
+                Bảng giá
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Link href={'/about'} className="font-game text-xl">Về chúng tôi</Link>
+              <Link href="/contactus" className="font-game text-xl">
+                Liên hệ
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
 
+          <NavigationMenuItem>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <Link href="/about" className="font-game text-xl">
+                Về chúng tôi
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
 
       {/* SignUp Button*/}
 
-      <Button className="font-game text-2xl" variant={"pixel"}>
-        Đăng kí
-      </Button>
+      <div className="flex items-center gap-4">
+        <Link href="/register">
+          <Button className="font-game text-2xl" variant={"pixel"}>
+            Đăng kí
+          </Button>
+        </Link>
+        <Link href="/login">
+          <Button className="font-game text-2xl" variant={"pixel"}>
+            Đăng nhập
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
