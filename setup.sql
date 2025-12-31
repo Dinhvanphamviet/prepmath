@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255),
     phone VARCHAR(50),
     address TEXT,
+    email_verified TIMESTAMP,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -69,4 +70,5 @@ CREATE TABLE IF NOT EXISTS verification_tokens (
     PRIMARY KEY (identifier, token)
 );
 
--- Note: 'users' table needs: ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified TIMESTAMP;
+    PRIMARY KEY (identifier, token)
+);
