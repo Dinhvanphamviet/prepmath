@@ -46,7 +46,7 @@ export default function LoginPage() {
 
                 if (res.ok) {
                     toast.success('Đăng nhập thành công');
-                    router.push('/');
+                    router.push('/dashboard');
                     router.refresh();
                 } else {
                     toast.error(data.message || 'Có lỗi xảy ra');
