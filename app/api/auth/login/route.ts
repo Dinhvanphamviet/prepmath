@@ -20,14 +20,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Đăng nhập thất bại' }, { status: 401 });
         }
 
-        // Note: In NextAuth v5 stateless JWT mode, `signIn` might not return the user object directly if redirect is false.
-        // However, since we authenticated successfully (no throw/error), we proceed to manage Refresh Token.
-
-        // We need the User ID. Since signIn doesn't easily return it in this flow without session, 
-        // let's fetch the user again to generate the Refresh Token.
-        // Optimization: We could move this logic into the `signIn` callback in auth.config.ts if we wanted to attach it to the cookie there,
-        // but the requirement asks for API structure.
-
         const userRes = await query('SELECT id FROM users WHERE username = $1', [username]);
         const user = userRes.rows[0];
 
@@ -42,10 +34,7 @@ export async function POST(req: Request) {
         // Create new Refresh Token
         const refreshToken = await createRefreshToken(user.id);
 
-        // 3. Set Refresh Token HTTP Cookie (or return in body? Requirement says "JWT lưu trong cookie", implies Access Token. 
-        // Usually Refresh Token is ALSO in cookie for security, or body for mobile. Let's start with Cookie for security.)
-        // However, requirement 4 says "JWT payload chỉ chứa userId, role".
-        // Requirement 5 says "Refresh token (15 phút)".
+        // 3. Set Refresh Token HTTP Cookie
 
         // Let's attach Refresh Token as a cookie manually here since NextAuth handles the Session Token (JWT).
         const response = NextResponse.json({ message: 'Đăng nhập thành công' });
