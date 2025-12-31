@@ -52,3 +52,11 @@ CREATE TRIGGER update_users_updated_at
     BEFORE UPDATE ON users
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
+
+-- Table: password_reset_tokens
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    PRIMARY KEY (email, token)
+);

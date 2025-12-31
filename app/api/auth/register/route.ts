@@ -23,6 +23,12 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Tên đăng nhập đã tồn tại' }, { status: 409 });
         }
 
+        // Check if email exists
+        const existingEmail = await query('SELECT id FROM users WHERE email = $1', [email]);
+        if (existingEmail.rows.length > 0) {
+            return NextResponse.json({ message: 'Email đã tồn tại' }, { status: 409 });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Force role to 'student' if not specified or trying to be 'teacher' via public API (logic tweak from request: "Không cho học sinh tự chọn role")
@@ -30,10 +36,12 @@ export async function POST(req: Request) {
         // Assuming this is public registration for students:
         const finalRole = 'student';
 
+        const safeDateOfBirth = date_of_birth === '' ? null : date_of_birth;
+
         await query(
             `INSERT INTO users (username, password, role, full_name, email, phone, address, date_of_birth)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-            [username, hashedPassword, finalRole, full_name, email, phone, address, date_of_birth]
+            [username, hashedPassword, finalRole, full_name, email, phone, address, safeDateOfBirth]
         );
 
         return NextResponse.json({ message: 'Đăng ký thành công' }, { status: 201 });

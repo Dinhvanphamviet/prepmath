@@ -96,6 +96,14 @@ export default function LoginPage() {
                                         </FormItem>
                                     )}
                                 />
+                                <div className="flex justify-end">
+                                    <Link
+                                        href="/forgot-password"
+                                        className="text-sm text-primary hover:underline font-game"
+                                    >
+                                        Quên mật khẩu?
+                                    </Link>
+                                </div>
                                 <Button type="submit" className="w-full mt-6 font-game text-2xl py-6" disabled={isPending}>
                                     {isPending ? 'Đang xử lý...' : 'Đăng nhập'}
                                 </Button>

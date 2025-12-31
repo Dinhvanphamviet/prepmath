@@ -132,7 +132,7 @@ export default function RegisterPage() {
                                     name="email"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="font-game text-xl">Email</FormLabel>
+                                            <FormLabel className="font-game text-xl">Email (*)</FormLabel>
                                             <FormControl>
                                                 <Input type="email" placeholder="email@example.com" {...field} />
                                             </FormControl>
@@ -197,7 +197,7 @@ export default function RegisterPage() {
                     </CardFooter>
                 </Card>
             </div>
-            
+
         </div>
     );
 }

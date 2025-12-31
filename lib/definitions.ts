@@ -6,7 +6,7 @@ export const RegisterSchema = z.object({
     username: z.string().min(3, { message: 'Username phải có ít nhất 3 ký tự' }),
     password: z.string().min(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' }),
     full_name: z.string().min(2, { message: 'Họ tên phải có ít nhất 2 ký tự' }),
-    email: z.string().email({ message: 'Email không hợp lệ' }).optional().or(z.literal('')),
+    email: z.string().email({ message: 'Email không hợp lệ' }),
     phone: z.string().regex(/^[0-9]+$/, { message: 'Số điện thoại chỉ được chứa số' }).optional().or(z.literal('')),
     address: z.string().optional(),
     date_of_birth: z.string().optional(), // YYYY-MM-DD
