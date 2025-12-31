@@ -7,11 +7,19 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+            const isOnAdmin = nextUrl.pathname.startsWith('/admin');
+            const isOnDashboard = nextUrl.pathname.startsWith('/dashboard'); // Or any other protected student route
+
+            if (isOnAdmin) {
+                if (isLoggedIn && auth.user?.role === 'teacher') return true;
+                return false; // Redirect unauthenticated or unauthorized to login (or 404/403 if handled by Pages)
+            }
+
             if (isOnDashboard) {
                 if (isLoggedIn) return true;
-                return false; 
+                return false; // Redirect unauthenticated to login
             }
+
             return true;
         },
         async session({ session, token }) {
@@ -38,9 +46,9 @@ export const authConfig = {
             return token;
         },
     },
-    providers: [], 
+    providers: [],
     session: {
         strategy: 'jwt',
-        maxAge: 60 * 60, 
+        maxAge: 60 * 60,
     },
 } satisfies NextAuthConfig;
