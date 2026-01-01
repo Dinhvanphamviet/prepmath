@@ -7,6 +7,9 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
+            const isOnAuth = nextUrl.pathname.startsWith('/api/auth');
+            if (isOnAuth) return true; // Always allow auth routes
+
             const isOnAdmin = nextUrl.pathname.startsWith('/admin');
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard'); // Or any other protected student route
 
