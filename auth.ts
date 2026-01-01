@@ -35,6 +35,14 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            allowDangerousEmailAccountLinking: true,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code",
+                },
+            },
         }),
         Credentials({
             async authorize(credentials) {
@@ -166,8 +174,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
                 } catch (error: any) {
                     console.error("Error during Google Signin:", error);
-                    // Throw error to see it in the URL
-                    throw new Error(`Database Error: ${error.message}`);
+                    // Redirect to login with custom error query param
+                    return `/login?error=DatabaseCreationError&details=${encodeURIComponent(error.message)}`;
                 }
             }
 
