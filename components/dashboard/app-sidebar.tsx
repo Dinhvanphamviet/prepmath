@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -17,7 +16,8 @@ import {
     GraduationCap,
     Home,
     FileText,
-    BarChart3
+    BarChart3,
+    type LucideIcon // Import thêm type nếu cần, hoặc để any ở dưới
 } from "lucide-react"
 
 import {
@@ -46,8 +46,27 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 
+// 1. Định nghĩa Interface cho NavItem
+interface NavItem {
+    title: string
+    url: string
+    icon: any // Có thể dùng LucideIcon nếu muốn chặt chẽ hơn
+    isActive?: boolean
+    items?: {
+        title: string
+        url: string
+    }[]
+}
 
-const data = {
+// 2. Áp dụng kiểu dữ liệu cho biến data
+const data: {
+    user: {
+        name: string
+        email: string
+        avatar: string
+    }
+    navMain: NavItem[]
+} = {
     user: {
         name: "shadcn",
         email: "m@example.com",
@@ -65,7 +84,6 @@ const data = {
             url: "/dashboard/courses",
             icon: BookOpen,
         },
-
         {
             title: "Hồ sơ",
             url: "/dashboard/profile",
@@ -100,9 +118,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarGroup>
                     <SidebarMenu>
                         {data.navMain.map((item) => {
+                            // Logic kiểm tra active bao gồm cả menu con (nếu có)
                             const isActive = pathname === item.url || (item.items && item.items.some(sub => pathname === sub.url));
 
-                            if (item.items) {
+                            // Kiểm tra item.items?.length thay vì chỉ item.items để an toàn hơn
+                            if (item.items && item.items.length > 0) {
                                 return (
                                     <Collapsible
                                         key={item.title}

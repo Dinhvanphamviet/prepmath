@@ -31,6 +31,7 @@ export function CourseCard({ course, isTeacher }: CourseCardProps) {
                         alt={course.title}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        unoptimized={course.thumbnail_url?.includes('.gif')}
                     />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-500 to-teal-400">
@@ -73,4 +74,3 @@ export function CourseCard({ course, isTeacher }: CourseCardProps) {
         </div>
     );
 }
-
