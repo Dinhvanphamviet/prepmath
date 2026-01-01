@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { query } from "@/lib/db";
@@ -86,13 +85,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ c
     // Student View (Overview/Syllabus)
     return (
         <div className="flex-1 p-8 pt-6 h-full">
-            <Suspense fallback={<div>Đang tải...</div>}>
-                <CourseSyllabus
-                    course={course}
-                    chapters={chaptersWithLessons}
-                    isEnrolled={isEnrolled}
-                />
-            </Suspense>
+            <CourseSyllabus
+                course={course}
+                chapters={chaptersWithLessons}
+                isEnrolled={isEnrolled}
+            />
         </div>
     );
 }

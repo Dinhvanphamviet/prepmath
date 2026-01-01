@@ -17,7 +17,7 @@ function Header() {
   return (
     <div className="p-4 max-w-7xl flex justify-between items-center w-full">
       <div className="flex gap-2 items-center">
-        <Image src="/logo.png" alt="Logo" width={40} height={40} />
+        <Image src="/logofinal.png" alt="Logo" width={40} height={40} />
         <h2 className="font-game font-bold text-3xl">PrepMath</h2>
       </div>
 
@@ -29,43 +29,54 @@ function Header() {
               Luyện đề
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <NavigationMenuLink className="font-game text-xl">
-                THPT
-              </NavigationMenuLink>
-              <NavigationMenuLink className="font-game text-xl">
-                HSA
-              </NavigationMenuLink>
-              <NavigationMenuLink className="font-game text-xl">
-                TSA
-              </NavigationMenuLink>
+              <ul className="grid w-[200px] gap-3 p-4">
+                <li>
+                  <Link href="/dashboard/exam/thpt" legacyBehavior passHref>
+                    <NavigationMenuLink className="font-game text-xl block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      THPT
+                    </NavigationMenuLink>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dashboard/exam/hsa" legacyBehavior passHref>
+                    <NavigationMenuLink className="font-game text-xl block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      HSA
+                    </NavigationMenuLink>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dashboard/exam/tsa" legacyBehavior passHref>
+                    <NavigationMenuLink className="font-game text-xl block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      TSA
+                    </NavigationMenuLink>
+                  </Link>
+                </li>
+              </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href="/pricing" className="font-game text-xl">
+            <Link href="/pricing" legacyBehavior passHref>
+              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} font-game text-xl`}>
                 Bảng giá
-              </Link>
-            </NavigationMenuLink>
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Link href="/contactus" className="font-game text-xl">
+            <Link href="/contactus" legacyBehavior passHref>
+              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} font-game text-xl`}>
                 Liên hệ
-              </Link>
-            </NavigationMenuLink>
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Link href="/about" className="font-game text-xl">
+            <Link href="/about" legacyBehavior passHref>
+              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} font-game text-xl`}>
                 Về chúng tôi
-              </Link>
-            </NavigationMenuLink>
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

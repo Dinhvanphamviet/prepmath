@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { query } from "@/lib/db";
@@ -108,13 +107,11 @@ export default async function CourseLearnPage({ params }: { params: Promise<{ co
 
     return (
         <div className="h-full">
-            <Suspense fallback={<div>Đang tải ứng dụng học...</div>}>
-                <CourseViewer
-                    course={course}
-                    chapters={chaptersWithLessons}
-                    hasAccess={hasAccess}
-                />
-            </Suspense>
+            <CourseViewer
+                course={course}
+                chapters={chaptersWithLessons}
+                hasAccess={hasAccess}
+            />
         </div>
     );
 }

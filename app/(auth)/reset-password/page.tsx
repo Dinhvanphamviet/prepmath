@@ -28,6 +28,7 @@ const ResetPasswordSchema = z.object({
     path: ["confirmPassword"],
 });
 
+
 function ResetPasswordForm() {
     const searchParams = useSearchParams();
     const token = searchParams.get('token');

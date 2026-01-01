@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useTransition } from 'react';
 import { toast } from 'sonner';
+
 
 function VerifyEmailContent() {
     const searchParams = useSearchParams();
