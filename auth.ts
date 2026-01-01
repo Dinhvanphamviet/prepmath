@@ -92,14 +92,16 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
             // Subsequent requests: fetch fresh data from DB using the UUID we (hopefully) set above
             if (token.sub) {
                 // Ensure token.sub is a valid UUID before querying to avoid "invalid input syntax" errors
-                // Simple regex check for UUID or try/catch inside getUserById handles it, 
-                // but getUserById already swallows errors, so it's safe-ish.
-                const existingUser = await getUserById(token.sub);
-                if (existingUser) {
-                    token.image = existingUser.image;
-                    token.role = existingUser.role;
-                    token.name = existingUser.full_name;
-                    token.email = existingUser.email;
+                const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(token.sub);
+
+                if (isUuid) {
+                    const existingUser = await getUserById(token.sub);
+                    if (existingUser) {
+                        token.image = existingUser.image;
+                        token.role = existingUser.role;
+                        token.name = existingUser.full_name;
+                        token.email = existingUser.email;
+                    }
                 }
             }
 
