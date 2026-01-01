@@ -37,7 +37,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
         const transporter = await getTransporter();
 
         const info = await transporter.sendMail({
-            from: '"Prep HSA Support" <support@prephsa.com>', // sender address
+            from: '"PrepMath Support" <support@prepmath.com>', // sender address
             to: email, // list of receivers
             subject: 'Yêu cầu đặt lại mật khẩu', // Subject line
             html: `
@@ -61,12 +61,12 @@ export async function sendPasswordResetEmail(email: string, token: string) {
         <body style="background-color: #f8fafc; padding: 40px 0;">
             <div class="container">
                 <div class="header">
-                    <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}" class="logo">Prep HSA</a>
+                    <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}" class="logo">PrepMath</a>
                 </div>
                 <div class="content">
                     <h2 style="color: #1e293b; margin-top: 0;">Yêu cầu đặt lại mật khẩu</h2>
                     <p>Xin chào,</p>
-                    <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản Prep HSA của bạn.</p>
+                    <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản PrepMath của bạn.</p>
                     <p>Vui lòng nhấn vào nút bên dưới để tiến hành đặt lại mật khẩu:</p>
                     
                     <div class="button-container">
@@ -77,7 +77,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
                     <p>Nếu bạn không yêu cầu hành động này, vui lòng bỏ qua email và tài khoản của bạn vẫn được bảo mật.</p>
 
                     <div class="footer">
-                        <p>&copy; ${new Date().getFullYear()} Prep HSA. All rights reserved.</p>
+                        <p>&copy; ${new Date().getFullYear()} PrepMath. All rights reserved.</p>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@ export async function sendVerificationEmail(email: string, token: string) {
         const transporter = await getTransporter();
 
         const info = await transporter.sendMail({
-            from: '"Prep HSA Support" <support@prephsa.com>',
+            from: '"PrepMath Support" <support@prepmath.com>',
             to: email,
             subject: 'Xác thực tài khoản của bạn',
             html: `
@@ -142,12 +142,12 @@ export async function sendVerificationEmail(email: string, token: string) {
         <body style="background-color: #f8fafc; padding: 40px 0;">
             <div class="container">
                 <div class="header">
-                    <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}" class="logo">Prep HSA</a>
+                    <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}" class="logo">PrepMath</a>
                 </div>
                 <div class="content">
                     <h2 style="color: #1e293b; margin-top: 0;">Xác thực tài khoản</h2>
                     <p>Xin chào,</p>
-                    <p>Cảm ơn bạn đã đăng ký tài khoản tại Prep HSA. Vui lòng xác thực email để hoàn tất quá trình đăng ký.</p>
+                    <p>Cảm ơn bạn đã đăng ký tài khoản tại PrepMath. Vui lòng xác thực email để hoàn tất quá trình đăng ký.</p>
                     <p>Nhấn vào nút bên dưới để kích hoạt tài khoản:</p>
                     
                     <div class="button-container">
@@ -157,7 +157,7 @@ export async function sendVerificationEmail(email: string, token: string) {
                     <p>Link này sẽ hết hạn sau 24 giờ.</p>
                 </div>
                 <div class="footer">
-                    <p>&copy; ${new Date().getFullYear()} Prep HSA. All rights reserved.</p>
+                    <p>&copy; ${new Date().getFullYear()} PrepMath. All rights reserved.</p>
                 </div>
             </div>
         </body>

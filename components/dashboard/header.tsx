@@ -18,7 +18,7 @@ export function DashboardHeader() {
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem className="hidden md:block">
-                        <BreadcrumbLink href="#" className="font-game text-lg">PrepHSA Dashboard</BreadcrumbLink>
+                        <BreadcrumbLink href="#" className="font-game text-lg">PrepMath Dashboard</BreadcrumbLink>
                     </BreadcrumbItem>
                     {/* <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>

@@ -1,6 +1,7 @@
 
 "use client"
 
+import * as React from "react"
 import {
     BadgeCheck,
     Bell,
@@ -36,12 +37,34 @@ export function NavUser() {
     const { isMobile } = useSidebar()
     const { data: session } = useSession()
 
-    if (!session?.user) return null
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    const [currentAvatar, setCurrentAvatar] = React.useState(session?.user?.image || "");
+
+    React.useEffect(() => {
+        if (session?.user?.image) {
+            setCurrentAvatar(session.user.image);
+        }
+    }, [session?.user?.image]);
+
+    React.useEffect(() => {
+        const handleAvatarUpdate = (event: CustomEvent<string>) => {
+            setCurrentAvatar(event.detail);
+        };
+        window.addEventListener('user-avatar-updated', handleAvatarUpdate as EventListener);
+        return () => window.removeEventListener('user-avatar-updated', handleAvatarUpdate as EventListener);
+    }, []);
+
+    if (!isMounted || !session?.user) return null
 
     const user = {
         name: session.user.name || "User",
         email: session.user.email || "user@example.com",
-        avatar: session.user.image || "",
+        avatar: currentAvatar,
     }
 
     return (
@@ -53,7 +76,7 @@ export function NavUser() {
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
-                            <Avatar className="h-8 w-8 rounded-lg">
+                            <Avatar key={user.avatar} className="h-8 w-8 rounded-lg">
                                 <AvatarImage src={user.avatar} alt={user.name} />
                                 <AvatarFallback className="rounded-lg">{user.name ? user.name.substring(0, 2).toUpperCase() : 'U'}</AvatarFallback>
                             </Avatar>
@@ -72,7 +95,7 @@ export function NavUser() {
                     >
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                <Avatar className="h-8 w-8 rounded-lg">
+                                <Avatar key={user.avatar} className="h-8 w-8 rounded-lg">
                                     <AvatarImage src={user.avatar} alt={user.name} />
                                     <AvatarFallback className="rounded-lg">{user.name ? user.name.substring(0, 2).toUpperCase() : 'U'}</AvatarFallback>
                                 </Avatar>

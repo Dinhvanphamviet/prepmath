@@ -41,10 +41,11 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { NavUser } from "@/components/dashboard/nav-user" // Will create this next
+import { NavUser } from "@/components/dashboard/nav-user"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+
 
 const data = {
     user: {
@@ -54,36 +55,17 @@ const data = {
     },
     navMain: [
         {
-            title: "Dashboard",
+            title: "Tất cả các khóa học",
             url: "/dashboard",
             icon: Home,
             isActive: true,
         },
         {
-            title: "Khóa học",
+            title: "Khóa học của tôi",
             url: "/dashboard/courses",
             icon: BookOpen,
         },
-        {
-            title: "Phòng Khảo Thí",
-            url: "#",
-            icon: GraduationCap,
-            isActive: true, // Default open
-            items: [
-                {
-                    title: "Đánh Giá Tư Duy TSA",
-                    url: "/dashboard/exam/tsa",
-                },
-                {
-                    title: "THPT Quốc Gia",
-                    url: "/dashboard/exam/thpt",
-                },
-                {
-                    title: "Đánh Giá Năng Lực HSA",
-                    url: "/dashboard/exam/hsa",
-                },
-            ],
-        },
+
         {
             title: "Hồ sơ",
             url: "/dashboard/profile",
@@ -99,18 +81,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
                 <div className="flex items-center gap-2 px-2 py-2">
-                    <div className="flex items-center justify-center rounded-lg">
+                    <div className="flex items-center justify-center rounded-lg size-10">
                         <Image
-                            src="/logo.png"
-                            alt="Prep HSA Logo"
+                            src="/logofinal.png"
+                            alt="Prep Math Logo"
                             width={40}
                             height={40}
                             className="rounded-lg object-contain"
                         />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-bold font-game text-2xl">Prep HSA</span>
-                        <span className="truncate text-base font-game">Student Portal</span>
+                        <span className="truncate font-bold font-game text-2xl">Prep Math</span>
+                        <span className="truncate text-base font-game">Student</span>
                     </div>
                 </div>
             </SidebarHeader>

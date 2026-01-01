@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Pixelify_Sans, Inter, Jersey_10 } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Provider from "./provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -14,10 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const GameFont = Jersey_10({
-  subsets: ["latin"],
+const GameFont = localFont({
+  src: "../public/fonts/SVN-Determination Sans.ttf",
   variable: "--font-game",
-  weight: ["400"],
+  display: "swap",
 });
 
 const inter = Inter({
@@ -39,7 +40,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="dark">
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} ${GameFont.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${GameFont.variable} ${inter.variable} antialiased font-game`}
       >
         <Provider
           attribute="class"

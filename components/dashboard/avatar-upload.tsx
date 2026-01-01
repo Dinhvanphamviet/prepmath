@@ -26,24 +26,32 @@ export function AvatarUpload({ currentImage, alt, fallback }: AvatarUploadProps)
 
         setIsUpdating(true);
         try {
-            const res = await fetch('/api/user/update-avatar', {
+            // Optimistic update: Update session immediately with new image
+            // We pass the new image to update() so it overrides the DB value in the JWT callback
+            const sessionUpdate = update({ user: { image: url } });
+
+            // Parallel DB update
+            const dbUpdate = fetch('/api/user/update-avatar', {
                 method: 'POST',
                 body: JSON.stringify({ avatarUrl: url }),
             });
 
+            // Wait for both
+            const [_, res] = await Promise.all([sessionUpdate, dbUpdate]);
+
             if (!res.ok) throw new Error("Failed to update");
 
-            toast.success("Cập nhật ảnh đại diện thành công!");
+            // Dispatch global event for instant UI update in other components
+            window.dispatchEvent(new CustomEvent('user-avatar-updated', { detail: url }));
 
-            try {
-                await update({ user: { image: url } });
-                router.refresh();
-            } catch (e) {
-                // If update() fails (e.g. JSON error), force reload to update UI
-                window.location.reload();
-            }
+            toast.success("Cập nhật ảnh đại diện thành công!");
+            router.refresh();
+
         } catch (error) {
             toast.error("Có lỗi xảy ra khi cập nhật ảnh.");
+            console.error(error);
+            // Revert/Reload if massive failure
+            // window.location.reload(); 
         } finally {
             setIsUpdating(false);
         }
