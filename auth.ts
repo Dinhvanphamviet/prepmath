@@ -115,9 +115,14 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
             return token;
         },
         async signIn({ user, account, profile }) {
+            console.log("SignIn Callback Triggered", { provider: account?.provider, email: user.email });
+
             // Allow OAuth without email verification check (we verify it here)
             if (account?.provider === 'google') {
-                if (!user.email) return false;
+                if (!user.email) {
+                    console.error("Google SignIn: No email provided");
+                    return false;
+                }
 
                 try {
                     // Check if user exists
@@ -135,6 +140,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                         }
                         return true;
                     }
+
+                    console.log("Google SignIn: Creating new user for", user.email);
 
                     // Create new user
                     // Generate a random password (user can't use it, must use Google or reset)
@@ -154,6 +161,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                         [username, hashedPassword, 'student', user.name, user.email, user.image]
                     );
 
+                    console.log("Google SignIn: User created successfully");
                     return true;
 
                 } catch (error) {
