@@ -164,9 +164,10 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                     console.log("Google SignIn: User created successfully");
                     return true;
 
-                } catch (error) {
+                } catch (error: any) {
                     console.error("Error during Google Signin:", error);
-                    return false;
+                    // Throw error to see it in the URL
+                    throw new Error(`Database Error: ${error.message}`);
                 }
             }
 
