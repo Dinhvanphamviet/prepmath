@@ -34,7 +34,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "PrepMath",
-  description: "PrepMath",
+  description: "PrepMath - Nâng Tầm Kỹ Năng Toán",
+  metadataBase: new URL("https://www.prepmath.io.vn"),
 };
 
 export default function RootLayout({
