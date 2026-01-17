@@ -5,6 +5,7 @@ import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { UserMenu } from "@/components/dashboard/user-menu"
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -42,6 +43,8 @@ export function DashboardHeader() {
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Chuyển đổi giao diện</span>
             </Button>
+
+            <UserMenu />
         </header>
     )
 }

@@ -35,7 +35,7 @@ import { useSession, signOut } from "next-auth/react"
 
 export function NavUser() {
     const { isMobile } = useSidebar()
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
 
     const [isMounted, setIsMounted] = React.useState(false);
 
@@ -59,7 +59,34 @@ export function NavUser() {
         return () => window.removeEventListener('user-avatar-updated', handleAvatarUpdate as EventListener);
     }, []);
 
-    if (!isMounted || !session?.user) return null
+    if (!isMounted) return null
+
+    if (status === "loading") {
+        return (
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton size="lg" className="animate-pulse">
+                        <div className="h-8 w-8 rounded-lg bg-muted" />
+                        <div className="grid flex-1 gap-2">
+                            <div className="h-4 w-24 bg-muted rounded" />
+                            <div className="h-3 w-32 bg-muted rounded" />
+                        </div>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        )
+    }
+
+    // Fallback user if session is not yet loaded but we are in dashboard (assuming protected)
+    // Or just return null if no session.
+    // However, if the user "lost" the button, maybe session is taking time.
+    // Let's render a skeleton or just render with defaults if session is loading?
+    // "useSession" returns status.
+
+    // Better: If no session, do not return null, maybe show a "Loading..." or just hide?
+    // If the user says "lost button", they expect to see it.
+
+    if (!session?.user) return null
 
     const user = {
         name: session.user.name || "User",
@@ -81,8 +108,8 @@ export function NavUser() {
                                 <AvatarFallback className="rounded-lg">{user.name ? user.name.substring(0, 2).toUpperCase() : 'U'}</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold font-game text-lg">{user.name}</span>
-                                <span className="truncate text-sm font-game">{user.email}</span>
+                                <span className="truncate font-semibold font-heading text-lg">{user.name}</span>
+                                <span className="truncate text-sm font-heading">{user.email}</span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -100,8 +127,8 @@ export function NavUser() {
                                     <AvatarFallback className="rounded-lg">{user.name ? user.name.substring(0, 2).toUpperCase() : 'U'}</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold font-game text-lg">{user.name}</span>
-                                    <span className="truncate text-sm font-game">{user.email}</span>
+                                    <span className="truncate font-semibold font-heading text-lg">{user.name}</span>
+                                    <span className="truncate text-sm font-heading">{user.email}</span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
@@ -109,28 +136,28 @@ export function NavUser() {
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
                                 <Sparkles className="mr-2 h-4 w-4" />
-                                <span className="font-game text-lg">Nâng cấp tài khoản</span>
+                                <span className="font-heading text-lg">Nâng cấp tài khoản</span>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
                                 <BadgeCheck className="mr-2 h-4 w-4" />
-                                <span className="font-game text-lg">Hồ sơ</span>
+                                <span className="font-heading text-lg">Hồ sơ</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <CreditCard className="mr-2 h-4 w-4" />
-                                <span className="font-game text-lg">Thanh toán</span>
+                                <span className="font-heading text-lg">Thanh toán</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Bell className="mr-2 h-4 w-4" />
-                                <span className="font-game text-lg">Thông báo</span>
+                                <span className="font-heading text-lg">Thông báo</span>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => signOut()}>
+                        <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                             <LogOut className="mr-2 h-4 w-4" />
-                            <span className="font-game text-lg">Đăng xuất</span>
+                            <span className="font-heading text-lg">Đăng xuất</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

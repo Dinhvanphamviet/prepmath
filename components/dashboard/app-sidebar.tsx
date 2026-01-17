@@ -109,8 +109,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-bold font-game text-2xl">Prep Math</span>
-                        <span className="truncate text-base font-game">Student</span>
+                        <span className="truncate font-bold font-heading text-2xl">Prep Math</span>
+                        <span className="truncate text-base font-heading">Student</span>
                     </div>
                 </div>
             </SidebarHeader>
@@ -132,7 +132,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     >
                                         <SidebarMenuItem>
                                             <CollapsibleTrigger asChild>
-                                                <SidebarMenuButton tooltip={item.title} className="font-game">
+                                                <SidebarMenuButton tooltip={item.title} className="font-heading">
                                                     {item.icon && <item.icon />}
                                                     <span className="text-lg">{item.title}</span>
                                                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -144,7 +144,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                         <SidebarMenuSubItem key={subItem.title}>
                                                             <SidebarMenuSubButton asChild isActive={pathname === subItem.url}>
                                                                 <Link href={subItem.url}>
-                                                                    <span className="font-game text-lg">{subItem.title}</span>
+                                                                    <span className="font-heading text-lg">{subItem.title}</span>
                                                                 </Link>
                                                             </SidebarMenuSubButton>
                                                         </SidebarMenuSubItem>
@@ -161,7 +161,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <SidebarMenuButton asChild tooltip={item.title} isActive={pathname === item.url}>
                                         <Link href={item.url}>
                                             {item.icon && <item.icon />}
-                                            <span className="font-game text-lg">{item.title}</span>
+                                            <span className="font-heading text-lg">{item.title}</span>
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
