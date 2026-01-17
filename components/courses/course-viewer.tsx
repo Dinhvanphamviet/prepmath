@@ -8,7 +8,8 @@ import {
     CheckCircle,
     PlayCircle,
     ChevronLeft,
-    Menu
+    Menu,
+    Download
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +19,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"; // Added imports
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -38,6 +40,7 @@ export function CourseViewer({ course, chapters, hasAccess }: CourseViewerProps)
     const [activeLesson, setActiveLesson] = useState<any>(null);
     const [activeResource, setActiveResource] = useState<any>(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [mobileSheetOpen, setMobileSheetOpen] = useState(false); // Mobile sheet state
 
     // State to track completed lessons locally
     const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
@@ -139,6 +142,60 @@ export function CourseViewer({ course, chapters, hasAccess }: CourseViewerProps)
 
     const isCurrentLessonCompleted = activeLesson ? completedLessons.has(activeLesson.id) : false;
 
+    // Helper to render syllabus content
+    const renderSyllabus = () => (
+        <Accordion type="multiple" defaultValue={chapters.map(c => c.id)} className="w-full">
+            {chapters.map((chapter, index) => (
+                <AccordionItem key={chapter.id} value={chapter.id} className="border-b-0">
+                    <AccordionTrigger className="px-4 py-3 hover:no-underline bg-muted/10 text-sm font-semibold border-b">
+                        <div className="text-left w-full">
+                            <span className="font-heading line-clamp-1">CHƯƠNG {index + 1}: {chapter.title}</span>
+                            <div className="text-xs font-normal text-muted-foreground mt-0.5">
+                                {chapter.lessons.filter((l: any) => completedLessons.has(l.id)).length}/{chapter.lessons.length} hoàn thành
+                            </div>
+                        </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-0 pb-0">
+                        <div className="flex flex-col">
+                            {chapter.lessons.map((lesson: any) => {
+                                const isActive = activeLesson?.id === lesson.id;
+                                const isCompleted = completedLessons.has(lesson.id);
+
+                                return (
+                                    <button
+                                        key={lesson.id}
+                                        onClick={() => {
+                                            handleLessonSelect(lesson);
+                                            setMobileSheetOpen(false); // Close mobile sheet on select
+                                        }}
+                                        className={`flex items-center gap-3 p-3 text-sm transition-colors text-left border-l-4 border-b w-full
+                                            ${isActive
+                                                ? "border-l-primary bg-primary/10 text-primary font-medium"
+                                                : "border-l-transparent border-b-border/40 hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                                            }`}
+                                    >
+                                        <div className="shrink-0">
+                                            {isCompleted ? (
+                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                            ) : (
+                                                lesson.lesson_type === 'video'
+                                                    ? <PlayCircle className="h-4 w-4" />
+                                                    : <FileText className="h-4 w-4" />
+                                            )}
+                                        </div>
+                                        <div className="flex-1 line-clamp-2 text-xs md:text-sm">
+                                            {lesson.title}
+                                        </div>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+            ))}
+        </Accordion>
+    );
+
     return (
         <div className="flex flex-col h-[calc(100vh-4rem)]">
             {/* Top Bar inside Viewer */}
@@ -151,7 +208,7 @@ export function CourseViewer({ course, chapters, hasAccess }: CourseViewerProps)
                     </Link>
                     <h1 className="font-bold text-lg font-game line-clamp-1">{activeLesson?.title || course.title}</h1>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden">
+                <Button variant="ghost" size="icon" onClick={() => setMobileSheetOpen(true)} className="md:hidden">
                     <Menu className="h-5 w-5" />
                 </Button>
             </div>
@@ -206,15 +263,17 @@ export function CourseViewer({ course, chapters, hasAccess }: CourseViewerProps)
                                         <h3 className="text-lg font-bold font-game mb-4">Nội dung bài học</h3>
                                         <div className="space-y-2">
                                             {activeLesson.resources.map((resource: any, index: number) => (
-                                                <button
+                                                <div
                                                     key={resource.id}
-                                                    onClick={() => setActiveResource(resource)}
-                                                    className={`w-full text-left p-3 rounded-lg transition-colors ${activeResource?.id === resource.id
+                                                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${activeResource?.id === resource.id
                                                         ? 'bg-primary/10 border-2 border-primary'
                                                         : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
                                                         }`}
                                                 >
-                                                    <div className="flex items-start gap-3">
+                                                    <button
+                                                        onClick={() => setActiveResource(resource)}
+                                                        className="flex-1 text-left flex items-start gap-3 min-w-0"
+                                                    >
                                                         <div className={`mt-1 ${activeResource?.id === resource.id ? 'text-primary' : 'text-muted-foreground'}`}>
                                                             {resource.resource_type === 'video' ? (
                                                                 <PlayCircle className="h-5 w-5" />
@@ -232,8 +291,24 @@ export function CourseViewer({ course, chapters, hasAccess }: CourseViewerProps)
                                                                 </p>
                                                             )}
                                                         </div>
-                                                    </div>
-                                                </button>
+                                                    </button>
+
+                                                    {resource.resource_type === 'document' && resource.resource_url && (
+                                                        <a
+                                                            href={resource.resource_url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="ml-2 shrink-0"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            title="Tải tài liệu"
+                                                        >
+                                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                                                                <Download className="h-4 w-4" />
+                                                                <span className="sr-only">Tải về</span>
+                                                            </Button>
+                                                        </a>
+                                                    )}
+                                                </div>
                                             ))}
                                         </div>
                                     </div>
@@ -277,64 +352,34 @@ export function CourseViewer({ course, chapters, hasAccess }: CourseViewerProps)
                 </div>
 
                 {/* Sidebar - Course Content (Right Side) */}
-                <div className={`${sidebarOpen ? 'w-80' : 'w-0'} border-l bg-background flex flex-col transition-all duration-300 overflow-hidden`}>
+                <div className={`${sidebarOpen ? 'w-80' : 'w-0'} border-l bg-background hidden md:flex flex-col transition-all duration-300 overflow-hidden`}>
                     <div className="p-4 border-b bg-muted/30">
                         <h2 className="font-bold text-base flex items-center gap-2">
                             <Menu className="h-4 w-4" /> Đề cương khóa học
                         </h2>
                     </div>
                     <ScrollArea className="flex-1">
-                        <Accordion type="multiple" defaultValue={chapters.map(c => c.id)} className="w-full">
-                            {chapters.map((chapter, index) => (
-                                <AccordionItem key={chapter.id} value={chapter.id} className="border-b-0">
-                                    <AccordionTrigger className="px-4 py-3 hover:no-underline bg-muted/10 text-sm font-semibold border-b">
-                                        <div className="text-left">
-                                            <span className="font-game line-clamp-1">CHƯƠNG {index + 1}: {chapter.title}</span>
-                                            {/* Calculate completed count for chapter */}
-                                            <div className="text-xs font-normal text-muted-foreground mt-0.5">
-                                                {chapter.lessons.filter((l: any) => completedLessons.has(l.id)).length}/{chapter.lessons.length} hoàn thành
-                                            </div>
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="pt-0 pb-0">
-                                        <div className="flex flex-col">
-                                            {chapter.lessons.map((lesson: any) => {
-                                                const isActive = activeLesson?.id === lesson.id;
-                                                const isCompleted = completedLessons.has(lesson.id);
-
-                                                return (
-                                                    <button
-                                                        key={lesson.id}
-                                                        onClick={() => handleLessonSelect(lesson)}
-                                                        className={`flex items-center gap-3 p-3 text-sm transition-colors text-left border-l-4 border-b
-                                                            ${isActive
-                                                                ? "border-l-primary bg-primary/10 text-primary font-medium"
-                                                                : "border-l-transparent border-b-border/40 hover:bg-muted/50 text-muted-foreground hover:text-foreground"
-                                                            }`}
-                                                    >
-                                                        <div className="shrink-0">
-                                                            {isCompleted ? (
-                                                                <CheckCircle className="h-4 w-4 text-green-500" />
-                                                            ) : (
-                                                                lesson.lesson_type === 'video'
-                                                                    ? <PlayCircle className="h-4 w-4" />
-                                                                    : <FileText className="h-4 w-4" />
-                                                            )}
-                                                        </div>
-                                                        <div className="flex-1 line-clamp-2 text-xs md:text-sm">
-                                                            {lesson.title}
-                                                        </div>
-                                                    </button>
-                                                )
-                                            })}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
+                        {renderSyllabus()}
                     </ScrollArea>
                 </div>
+
+                {/* Mobile Sidebar Sheet */}
+                <Sheet open={mobileSheetOpen} onOpenChange={setMobileSheetOpen}>
+                    <SheetContent side="right" className="w-[85%] p-0 pt-10">
+                        <SheetTitle className="sr-only">Mục lục khóa học</SheetTitle>
+                        <SheetDescription className="sr-only">Danh sách các bài học</SheetDescription>
+                        <div className="p-4 border-b bg-muted/30 absolute top-0 left-0 right-0 z-10 h-14 flex items-center">
+                            <h2 className="font-bold text-base flex items-center gap-2">
+                                <Menu className="h-4 w-4" /> Đề cương khóa học
+                            </h2>
+                        </div>
+                        <ScrollArea className="h-full pt-14">
+                            {renderSyllabus()}
+                        </ScrollArea>
+                    </SheetContent>
+                </Sheet>
             </div>
         </div>
+
     );
 }

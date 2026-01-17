@@ -20,7 +20,7 @@ export function PixelLoading({ text = "Đang tải...", size = "md" }: PixelLoad
                 <div className="absolute inset-0 pixel-spinner"></div>
             </div>
 
-            <p className="text-sm font-game text-muted-foreground animate-pulse">
+            <p className="text-sm font-heading text-muted-foreground animate-pulse">
                 {text}
             </p>
 
@@ -54,12 +54,12 @@ export function PixelError({
     return (
         <div className="flex flex-col items-center justify-center gap-6 p-8 text-center">
             {/* Pixel Skull/Error Icon */}
-            <div className="text-6xl font-game select-none">
+            <div className="text-6xl font-heading select-none">
                 💀
             </div>
 
             <div className="space-y-2">
-                <h3 className="text-2xl font-bold font-game text-destructive">
+                <h3 className="text-2xl font-bold font-heading text-destructive">
                     {title}
                 </h3>
                 <p className="text-sm text-muted-foreground max-w-md">
@@ -71,7 +71,7 @@ export function PixelError({
                 <Button
                     onClick={onRetry}
                     variant="outline"
-                    className="font-game gap-2 pixel-border"
+                    className="font-heading gap-2 pixel-border"
                 >
                     <RefreshCw className="h-4 w-4" />
                     Thử lại
@@ -138,7 +138,7 @@ export function PixelEmptyState({
             </div>
 
             <div className="space-y-2">
-                <h3 className="text-2xl font-bold font-game">
+                <h3 className="text-2xl font-bold font-heading">
                     {title}
                 </h3>
                 <p className="text-sm text-muted-foreground max-w-md">

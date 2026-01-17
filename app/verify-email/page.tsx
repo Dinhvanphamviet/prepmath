@@ -53,21 +53,21 @@ function VerifyEmailContent() {
         <div className="flex h-screen w-full items-center justify-center px-4">
             <Card className="w-full max-w-sm">
                 <CardHeader>
-                    <CardTitle className={`text-2xl font-bold text-center font-game ${status === 'error' ? 'text-red-500' : 'text-primary'}`}>
+                    <CardTitle className={`text-2xl font-bold text-center ${status === 'error' ? 'text-destructive' : 'text-primary'}`}>
                         {status === 'loading' ? 'Đang xác thực...' : status === 'success' ? 'Thành công' : 'Lỗi'}
                     </CardTitle>
-                    <CardDescription className="text-center font-game text-lg mt-2">
+                    <CardDescription className="text-center text-base mt-2">
                         {message}
                     </CardDescription>
                 </CardHeader>
                 <CardFooter className="flex justify-center">
                     {status === 'success' && (
-                        <Button onClick={() => router.push('/login')} className="font-game w-full">
+                        <Button onClick={() => router.push('/login')} className="w-full">
                             Đăng nhập ngay
                         </Button>
                     )}
                     {status === 'error' && (
-                        <Link href="/register" className="text-primary hover:underline font-game">
+                        <Link href="/register" className="text-primary hover:underline font-medium">
                             Đăng ký lại
                         </Link>
                     )}
@@ -81,7 +81,7 @@ export default function VerifyEmailPage() {
     return (
         <Suspense fallback={
             <div className="flex h-screen w-full items-center justify-center">
-                <div className="animate-pulse font-game text-primary">Đang tải...</div>
+                <div className="animate-pulse text-primary font-medium">Đang tải...</div>
             </div>
         }>
             <VerifyEmailContent />
