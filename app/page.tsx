@@ -4,6 +4,8 @@ import Features from "./_components/Features"; // Course Catalog
 import ProgressDemo from "./_components/ProgressDemo";
 import EnrollmentCTA from "./_components/EnrollmentCTA";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <div className="flex flex-col w-full bg-background min-h-screen">
