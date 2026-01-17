@@ -106,7 +106,7 @@ function Header() {
                 variant="ghost"
                 size="icon"
                 className="rounded-full text-destructive hover:text-destructive/90 hover:bg-destructive/10"
-                onClick={() => signOut({ callbackUrl: '/' })}
+                onClick={() => signOut({ callbackUrl: 'https://www.prepmath.io.vn/' })}
                 title="Đăng xuất"
               >
                 <LogOut className="h-5 w-5" />
@@ -137,7 +137,7 @@ function Header() {
                       <span>Hồ sơ</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={() => signOut({ callbackUrl: '/' })}>
+                  <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={() => signOut({ callbackUrl: 'https://www.prepmath.io.vn/' })}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Đăng xuất</span>
                   </DropdownMenuItem>

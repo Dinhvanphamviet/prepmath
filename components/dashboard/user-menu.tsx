@@ -52,6 +52,18 @@ export function UserMenu() {
         avatar: currentAvatar,
     }
 
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            // Force hard navigation to clear client state and redirect to custom domain
+            window.location.href = 'https://www.prepmath.io.vn/';
+        } catch (error) {
+            console.error("Logout failed", error);
+            // Fallback
+            await signOut({ callbackUrl: 'https://www.prepmath.io.vn/' });
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -91,7 +103,7 @@ export function UserMenu() {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span className="font-heading">Đăng xuất</span>
                 </DropdownMenuItem>
