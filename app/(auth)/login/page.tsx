@@ -46,8 +46,9 @@ export default function LoginPage() {
 
                 if (res.ok) {
                     toast.success('Đăng nhập thành công');
-                    router.push('/dashboard');
-                    router.refresh();
+                    toast.success('Đăng nhập thành công');
+                    // Force hard navigation to ensure session cookies are picked up immediately
+                    window.location.href = '/dashboard';
                 } else {
                     toast.error(data.message || 'Có lỗi xảy ra');
                 }

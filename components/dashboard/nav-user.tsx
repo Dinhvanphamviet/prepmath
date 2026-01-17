@@ -154,11 +154,6 @@ export function NavUser() {
                                 <span className="font-heading text-lg">Thông báo</span>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span className="font-heading text-lg">Đăng xuất</span>
-                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuItem>

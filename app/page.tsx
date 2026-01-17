@@ -6,7 +6,17 @@ import EnrollmentCTA from "./_components/EnrollmentCTA";
 
 export const dynamic = "force-dynamic";
 
-export default function Home() {
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const session = await auth();
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex flex-col w-full bg-background min-h-screen">
       <Header />

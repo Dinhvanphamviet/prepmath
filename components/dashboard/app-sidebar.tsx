@@ -41,7 +41,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { NavUser } from "@/components/dashboard/nav-user"
+
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -171,7 +171,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser />
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>
